@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barre Code - Digital Dance & Performing Arts Studio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #0f3460;
+            --highlight: #e94560;
+            --text: #f5f5f5;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--primary);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(rgba(26, 26, 46, 0.8), rgba(26, 26, 46, 0.9)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%230f3460" fill-opacity="0.3" d="M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--gradient);
+            opacity: 0.1;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .shape:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: -150px;
+            left: -150px;
+            animation-duration: 25s;
+        }
+
+        .shape:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            bottom: -100px;
+            right: -100px;
+            animation-duration: 30s;
+            animation-delay: 5s;
+        }
+
+        .shape:nth-child(3) {
+            width: 150px;
+            height: 150px;
+            top: 50%;
+            left: 70%;
+            animation-duration: 35s;
+            animation-delay: 10s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            33% {
+                transform: translate(30px, -30px) rotate(120deg);
+            }
+            66% {
+                transform: translate(-20px, 20px) rotate(240deg);
+            }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+        }
+
+        .logo {
+            font-size: 4rem;
+            font-weight: 300;
+            letter-spacing: 0.5rem;
+            margin-bottom: 1rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                filter: brightness(1);
+            }
+            to {
+                filter: brightness(1.2);
+            }
+        }
+
+        .tagline {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-primary:hover {
+            filter: brightness(1.1);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 2rem;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 500;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+
+        /* Sections */
+        section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Programs Grid */
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .program-card {
+            background: var(--secondary);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .program-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .program-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .program-card:hover:before {
+            opacity: 0.1;
+        }
+
+        .program-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .program-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .program-description {
+            opacity: 0.8;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Features */
+        .features {
+            background: var(--secondary);
+            border-radius: 30px;
+            padding: 3rem;
+            margin-top: 5rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature {
+            text-align: center;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .feature:hover {
+            transform: scale(1.05);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* AI Judge Panel */
+        .ai-panel {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
+            border-radius: 30px;
+            padding: 3rem;
+            margin-top: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ai-panel:before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .judge-avatars {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        .judge {
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .judge:hover {
+            transform: translateY(-10px);
+        }
+
+        .judge-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .judge-name {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--secondary);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 5rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text);
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 3rem;
+            }
+            
+            .tagline {
+                font-size: 1.2rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .programs-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Interactive Elements */
+        .interactive-demo {
+            background: var(--secondary);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        .demo-button {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .demo-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        #demo-result {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            display: none;
+        }
+
+        /* Animated Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        .stat {
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .stat:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            opacity: 0.8;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">BARRE CODE</div>
+            <ul class="nav-links">
+                <li><a href="#programs">Programs</a></li>
+                <li><a href="#ai-judges">AI Judges</a></li>
+                <li><a href="#8765">8765 Therapy</a></li>
+                <li><a href="#corporate">Corporate</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="floating-shapes">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
+        <div class="hero-content">
+            <h1 class="logo">BARRE CODE</h1>
+            <p class="tagline">Decode Your Movement</p>
+            <p class="subtitle">Where technology, narrative design, and the physics of dance converge into a single embodied language.</p>
+            <div class="cta-buttons">
+                <button class="btn btn-primary" onclick="scrollToSection('programs')">Explore Classes</button>
+                <button class="btn btn-secondary" onclick="scrollToSection('8765')">8765 Therapy</button>
+                <button class="btn btn-secondary" onclick="scrollToSection('ai-judges')">AI Judges</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Programs Section -->
+    <section id="programs">
+        <h2 class="section-title">Our Programs</h2>
+        <p class="section-subtitle">Neurodivergent-friendly, whole-child concept programs merging tech, storytelling, and movement</p>
+        
+        <div class="programs-grid">
+            <div class="program-card">
+                <div class="program-icon">💫</div>
+                <h3 class="program-title">Movement as Linguistic Code</h3>
+                <p class="program-description">Inspired by Balanchine's trust repertory, learn choreography as a living "script" you read, interpret, and perform.</p>
+            </div>
+            
+            <div class="program-card">
+                <div class="program-icon">🧬</div>
+                <h3 class="program-title">Applied Physics & Mathematics</h3>
+                <p class="program-description">Break down each phrase into force vectors, timing ratios, and spatial geometry with real-time visualization.</p>
+            </div>
+            
+            <div class="program-card">
+                <div class="program-icon">📖</div>
+                <h3 class="program-title">Narrative Architecture</h3>
+                <p class="program-description">Build your own dance narratives with modular "chapters" of movement you can remix, annotate, and share.</p>
+            </div>
+            
+            <div class="program-card">
+                <div class="program-icon">🎭</div>
+                <h3 class="program-title">8765: Adult Ballet Inversion</h3>
+                <p class="program-description">Reverse • Reclaim • Rise. A signature program for former dancers to reactivate muscle memory and rebuild confidence.</p>
+            </div>
+            
+            <div class="program-card">
+                <div class="program-icon">🏢</div>
+                <h3 class="program-title">Ballet Intelligence for Business</h3>
+                <p class="program-description">Translate ballet's precision and narrative power into strategic advantage for corporate teams.</p>
+            </div>
+            
+            <div class="program-card">
+                <div class="program-icon">🤖</div>
+                <h3 class="program-title">Tech-Driven Learning Lab</h3>
+                <p class="program-description">Motion-capture tutorials, AI-powered feedback, and digital repertoire vault streaming.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section>
+        <div class="features">
+            <h2 class="section-title">Platform Features</h2>
+            <div class="features-grid">
+                <div class="feature">
+                    <div class="feature-icon">🎥</div>
+                    <h3>On-Demand Library</h3>
+                    <p>Stream or download classes sorted by style, level, and technique</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🔴</div>
+                    <h3>Live Virtual Classes</h3>
+                    <p>Join group workshops or 1:1 labs with real-time feedback</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🧠</div>
+                    <h3>Neurodivergent Support</h3>
+                    <p>Multi-sensory cues, modular lessons, and adaptive UI options</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">💎</div>
+                    <h3>Digital Repertoire Vault</h3>
+                    <p>Access annotated choreography from Balanchine-inspired archives</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Judges Section -->
+    <section id="ai-judges">
+        <div class="ai-panel">
+            <h2 class="section-title">Starbound AI Judge Panel</h2>
+            <p class="section-subtitle">Meet your digital judges trained in classical, modern, and commercial styles</p>
+            
+            <div class="judge-avatars">
+                <div class="judge">
+                    <div class="judge-avatar">🩰</div>
+                    <div class="judge-name">Vaganova</div>
+                </div>
+                <div class="judge">
+                    <div class="judge-avatar">⭐</div>
+                    <div class="judge-name">Cecchetti</div>
+                </div>
+                <div class="judge">
+                    <div class="judge-avatar">💫</div>
+                    <div class="judge-name">Balanchine</div>
+                </div>
+                <div class="judge">
+                    <div class="judge-avatar">🌊</div>
+                    <div class="judge-name">Graham</div>
+                </div>
+                <div class="judge">
+                    <div class="judge-avatar">🎭</div>
+                    <div class="judge-name">Fosse</div>
+                </div>
+                <div class="judge">
+                    <div class="judge-avatar">🏀</div>
+                    <div class="judge-name">Commercial</div>
+                </div>
+            </div>
+            
+            <div class="interactive-demo">
+                <h3>Try AI Critique Demo</h3>
+                <p>Experience instant analysis with style-specific scores and personalized feedback</p>
+                <button class="demo-button" onclick="showDemoResult()">Analyze Sample Performance</button>
+                <div id="demo-result"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8765 Section -->
+    <section id="8765">
+        <h2 class="section-title">8765: Adult Ballet Inversion Therapy</h2>
+        <p class="section-subtitle">Reverse • Reclaim • Rise</p>
+        
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-number">92%</div>
+                <div class="stat-label">Muscle Memory Reactivation</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">6</div>
+                <div class="stat-label">Week Program</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Confidence Restoration</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">∞</div>
+                <div class="stat-label">Artistic Potential</div>
+            </div>
+        </div>
+        
+        <div class="features" style="margin-top: 3rem;">
+            <h3>Program Components</h3>
+            <div class="features-grid">
+                <div class="feature">
+                    <h4>Re-Entry Assessment</h4>
+                    <p>Gentle movement screening and story circle</p>
+                </div>
+                <div class="feature">
+                    <h4>Inversion Techniques</h4>
+                    <p>Floor-based decompression and myofascial release</p>
+                </div>
+                <div class="feature">
+                    <h4>Embodied Ballet Modules</h4>
+                    <p>Relearn classics with biomechanics breakdown</p>
+                </div>
+                <div class="feature">
+                    <h4>Narrative Reclamation</h4>
+                    <p>Build your personal dance story</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Corporate Section -->
+    <section id="corporate">
+        <h2 class="section-title">Corporate Transformation Labs</h2>
+        <p class="section-subtitle">Bring the discipline of ballet and the agility of improvisation into your boardroom.</p>
+
+        <div class="programs-grid">
+            <div class="program-card">
+                <div class="program-icon">🧭</div>
+                <h3 class="program-title">Strategic Storyboarding</h3>
+                <p class="program-description">Translate complex initiatives into choreographed journeys that teams can see, feel, and execute together.</p>
+            </div>
+            <div class="program-card">
+                <div class="program-icon">🤝</div>
+                <h3 class="program-title">Partnering Workshops</h3>
+                <p class="program-description">Build trust and timing with counterbalance exercises adapted for executive collaborations and cross-functional teams.</p>
+            </div>
+            <div class="program-card">
+                <div class="program-icon">📊</div>
+                <h3 class="program-title">Performance Analytics</h3>
+                <p class="program-description">Capture motion data to visualize leadership dynamics, meeting flow, and moments of alignment or friction.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <h2 class="section-title">Connect With Barre Code</h2>
+        <p class="section-subtitle">Whether you are a returning dancer, a curious beginner, or a creative executive, we would love to design your next movement story.</p>
+
+        <div class="features">
+            <div class="features-grid">
+                <div class="feature">
+                    <h4>Email</h4>
+                    <p><a href="mailto:hello@barrecode.studio" style="color: inherit; text-decoration: none;">hello@barrecode.studio</a></p>
+                </div>
+                <div class="feature">
+                    <h4>Studio Hours</h4>
+                    <p>Monday – Saturday · 9am to 7pm EST</p>
+                </div>
+                <div class="feature">
+                    <h4>Location</h4>
+                    <p>Virtual-first with pop-up residencies in NYC, LA, and Toronto</p>
+                </div>
+                <div class="feature">
+                    <h4>Community</h4>
+                    <p>Join our Discord to collaborate on choreography codes and share practice reels.</p>
+                </div>
+            </div>
+            <div class="cta-buttons" style="margin-top: 2rem;">
+                <a class="btn btn-primary" href="mailto:hello@barrecode.studio?subject=Start%20My%20Movement%20Journey">Book a Discovery Call</a>
+                <a class="btn btn-secondary" href="#" onclick="subscribeUpdates(event)">Subscribe for Updates</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="#">About</a>
+            <a href="#">Programs</a>
+            <a href="#">Community</a>
+            <a href="#">Contact</a>
+            <a href="#">Privacy</a>
+        </div>
+        <p style="opacity: 0.6;">© 2025 Barre Code. Decoding movement, one dancer at a time.</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Demo AI Judge Result
+        function showDemoResult() {
+            const result = document.getElementById('demo-result');
+            result.style.display = 'block';
+            result.innerHTML = `
+                <h4>AI Analysis Complete!</h4>
+                <p><strong>Overall Score:</strong> 87/100</p>
+                <p><strong>Technique:</strong> Beautiful port de bras, consider deepening your plié</p>
+                <p><strong>Musicality:</strong> 92% beat accuracy</p>
+                <p><strong>Artistry:</strong> Expressive upper body, engage your gaze more</p>
+                <p><em>Use code STARLAB10 for a personalized workshop!</em></p>
+            `;
+        }
+
+        // Animate stats on scroll
+        const observerOptions = {
+            threshold: 0.5
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all stat numbers
+        document.querySelectorAll('.stat-number').forEach(stat => {
+            observer.observe(stat);
+        });
+
+        function subscribeUpdates(event) {
+            event.preventDefault();
+            alert('Thank you! We will keep you informed about upcoming intensives and residency dates.');
+        }
+    </script>
+</body>
+</html>
